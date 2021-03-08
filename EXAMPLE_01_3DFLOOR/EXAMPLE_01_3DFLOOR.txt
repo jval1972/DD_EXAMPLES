@@ -1,0 +1,14 @@
+3d Floor and script example for DelphiDoom 2.0.
+Based on 3dfloor demo Created by: Mr.Rocket aka Ron Goode
+
+------------------------------------------------------------------------------------------
+This example demonstrates:
+
+-how to use DelphiDoom's PascalScript to allow the player to exit level only if he has the chainsaw.
+
+-how to use DelphiDoom's PascalScript to exit level when crossing a tagged line (without special).
+
+-how to place map objects above, or below a 3d floor.
+
+------------------------------------------------------------------------------------------
+Script is located inside ACTORDEF lump.
