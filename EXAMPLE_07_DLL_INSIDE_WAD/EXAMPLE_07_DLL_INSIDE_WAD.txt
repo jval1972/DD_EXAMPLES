@@ -1,0 +1,22 @@
+Script example for DelphiDoom 2.0. (version 2.0.3.704 or greater is required)
+DLL function calls.
+
+------------------------------------------------------------------------------------------
+This example demonstrates:
+
+-how to call DLL functions within DelphiDoom's PascalScript. DLLs can be inside the virtual DelphiDoom's file system (pk3/wad)
+-how to use the PK3ENTRY lump to define long filename aliases inside wads.
+ With DLL calls you are able to:
+ -Customize your level using your favourite programming language.
+ -Use existing libraries without the need to re-write them again using PascalScript.
+ -Implement complex algorithms taking advantage of the execution speed of native code.
+
+-NOTE: You do not have to call loadlibrary / unloadlibrary functions, the load and unload of the DLL is done automatically.
+
+------------------------------------------------------------------------------------------
+Place EXAMPLE_07_DLL_INSIDE_WAD.wad file in DelphiDoom's bin/doom folder and drag it over Doom32.exe (or GLDoom32.exe) to test.
+
+------------------------------------------------------------------------------------------
+Script is located inside ACTORDEF lump of the wad file. 
+The example DLL (lump "MYDLL1") is written in C programming language. The dll source code is located in src_dll folder. Embarcadero C++ Builder project file is provided. 
+
