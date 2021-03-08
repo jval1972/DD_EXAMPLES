@@ -1,0 +1,255 @@
+{$VANILLA_DEMO_OFF}
+
+script map01;
+
+uses
+  all;
+
+const
+  XSIZE = 10;
+  YSIZE = 10;
+  
+var
+  tailx: array[0..XSIZE * YSIZE] of integer;
+  taily: array[0..XSIZE * YSIZE] of integer;
+  headx: integer;
+  heady: integer;
+  applex: integer;
+  appley: integer;
+  dirx: integer;
+  diry: integer;
+  len: integer;
+  highscore: integer;
+  snakekey, oppositekey: char;
+
+type
+  direction_t = (dir_up, dir_right, dir_down, dir_left);
+  
+const
+  MAP_EMPTY = 0;
+  MAP_HEAD_UP = 1;
+  MAP_HEAD_RIGHT = 2;
+  MAP_HEAD_DOWN = 3;
+  MAP_HEAD_LEFT = 4;
+  MAP_BODY_1 = 5;
+  MAP_BODY_2 = 6;
+  MAP_APPLE = 7;
+
+var
+  TICKS_TO_MOVE: integer;
+
+procedure SnakeInitVariables;
+begin
+  headx := XSIZE - 1;
+  heady := YSIZE - 1;
+  applex := 5;
+  appley := 5;
+  dirx := 1;
+  diry := 0;
+  len := 0;
+  highscore := 0;
+  oppositekey := 'a';
+  TICKS_TO_MOVE := 8 - GameSkill;
+end;
+
+procedure SnakeInput;
+begin
+  if gamekeydown(Ord('w')) or gamekeydown($AD) then
+    snakekey := 'w'
+  else if gamekeydown(Ord('a')) or gamekeydown($AC) then
+    snakekey := 'a'
+  else if gamekeydown(Ord('s')) or gamekeydown($AF) then
+    snakekey := 's'
+  else if gamekeydown(Ord('d')) or gamekeydown($AE) then
+    snakekey := 'd';
+end;
+
+function CheckApplePosition(const xpos, ypos: integer): boolean;
+var
+  i: integer;
+begin
+  for i := 0 to len do
+    if tailx[i] = xpos then
+      if taily[i] = ypos then
+      begin
+        Result := False;
+        Exit;
+      end;
+  Result := True;
+end;
+
+function SDIR(const dx, dy: integer): direction_t;
+begin
+  if diry < 0 then
+    Result := dir_up
+  else if diry > 0 then
+    Result := dir_down
+  else if dirx < 0 then
+    Result := dir_left
+  else
+    Result := dir_right;
+end;
+
+procedure SnakeThinker;
+var
+  i: integer;
+begin
+  if snakekey <> oppositekey then
+  begin
+    case snakekey of
+      'w':
+        begin
+          dirx := 0;
+          diry := -1;
+          oppositeKey := 's';
+        end;
+      'a':
+        begin
+          dirx := -1;
+          diry := 0;
+          oppositeKey := 'd';
+        end;
+      's':
+        begin
+          dirx := 0;
+          diry := 1;
+          oppositeKey := 'w';
+        end;
+      'd':
+        begin
+          dirx := 1;
+          diry := 0;
+          oppositeKey := 'a';
+        end;
+    end;
+  end;
+
+  headx := headx + dirx;
+  heady := heady + diry;
+  if headx = XSIZE then
+    headx := 0;
+  if headx < 0 then
+    headx := XSIZE - 1;
+  if heady = YSIZE then
+    heady := 0;
+  if heady < 0 then
+    heady := YSIZE - 1;
+
+  if (headx = applex) and (heady = appley) then
+  begin
+    len := len + 1;
+    if len > highscore then
+      highscore := len;
+    PlaySound('SBONUS');
+    if len = XSIZE * YSIZE then
+    begin
+      G_ExitLevel;
+      Exit;
+    end;
+    for i := len downto 0 do
+    begin
+      tailx[i + 1] := tailx[i];
+      taily[i + 1] := taily[i];
+    end;
+    tailx[0] := applex;
+    taily[0] := appley;
+    repeat
+      applex := RandomRange(0, XSIZE - 1);
+      appley := RandomRange(0, YSIZE - 1);
+    until CheckApplePosition(applex, appley);
+  end
+  else
+  begin
+    for i := len downto 1 do
+    begin
+      tailx[i] := tailx[i - 1];
+      taily[i] := taily[i - 1];
+    end;
+    tailx[0] := headx;
+    taily[0] := heady;
+
+    for i := 1 to len do
+    begin
+      if (headx = tailx[i]) and (heady = taily[i]) then
+      begin
+        len := 0;
+        PlaySound('SDEATH');
+        Break;
+      end;
+    end;
+  end;
+end;
+
+function M2X(const x: integer): integer;
+begin
+  Result := 60 + x * 20;
+end;
+
+function M2Y(const y: integer): integer;
+begin
+  Result := y * 20;
+end;
+
+procedure SnakeDrawer;
+var
+  i: integer;
+  dir: direction_t;
+begin
+  // Head
+  dir := SDIR(dirx, diry);
+  case dir of
+    dir_up: Overlay.DrawPatch(TICKS_TO_MOVE, 'H_UP', M2X(headx), M2Y(heady));
+    dir_right: Overlay.DrawPatch(TICKS_TO_MOVE, 'H_RIGHT', M2X(headx), M2Y(heady));
+    dir_down: Overlay.DrawPatch(TICKS_TO_MOVE, 'H_DOWN', M2X(headx), M2Y(heady));
+    dir_left: Overlay.DrawPatch(TICKS_TO_MOVE, 'H_LEFT', M2X(headx), M2Y(heady));
+  end;
+
+  // Body
+  for i := 1 to len do
+  begin
+    if Odd(i) then
+      Overlay.DrawPatch(TICKS_TO_MOVE, 'BODY2', M2X(tailx[i]), M2Y(taily[i]))
+    else
+      Overlay.DrawPatch(TICKS_TO_MOVE, 'BODY1', M2X(tailx[i]), M2Y(taily[i]));
+  end;
+
+  // Apple
+  Overlay.DrawPatch(TICKS_TO_MOVE, 'APPLE', M2X(applex), M2Y(appley)); 
+  
+  // Record & score
+  Overlay.DrawText(TICKS_TO_MOVE, IntToStr(highscore), alCenter, 30, 16);
+  Overlay.DrawText(TICKS_TO_MOVE, IntToStr(len), alCenter, 290, 16);
+end;
+
+event OnTick(const tick: Integer);
+begin
+  SnakeInput;
+  if tick mod TICKS_TO_MOVE = 0 then
+  begin
+    SnakeThinker;
+    SnakeDrawer;
+  end;
+end;
+ 
+event OnMapStart;
+begin
+  Overlay.DrawPatch(MAXINT, 'BOARDBOR', 0, 0);
+  Overlay.DrawPatch(MAXINT, 'BOARDBOR', 20, 0);
+  Overlay.DrawPatch(MAXINT, 'BOARDBOR', 40, 0);
+  Overlay.DrawPatch(MAXINT, 'BOARD', 60, 0);
+  Overlay.DrawPatch(MAXINT, 'BOARDBOR', 260, 0);
+  Overlay.DrawPatch(MAXINT, 'BOARDBOR', 280, 0);
+  Overlay.DrawPatch(MAXINT, 'BOARDBOR', 300, 0);
+  Overlay.DrawRect(MAXINT, 0, 0, 0, 2, 3, 56, 25);
+  Overlay.DrawRect(MAXINT, 0, 0, 0, 263, 3, 317, 25);
+  Overlay.DrawText(MAXINT, 'RECORD', alCenter, 30, 6);
+  Overlay.DrawText(MAXINT, 'SCORE', alCenter, 290, 6);
+  SnakeInitVariables;
+end;
+
+event OnPlayerEnter(const playerNO: integer);
+begin 
+  SetPlayerAmmo(playerNO, am_clip, 0);
+end;
+
+endscript;
