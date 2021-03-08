@@ -1,0 +1,18 @@
+Example for DelphiDoom 2.0.
+Slope and Ladder.
+
+------------------------------------------------------------------------------------------
+This example demonstrates:
+
+-how to use ladders in DelphiDoom.
+-how to use slopes in DelphiDoom.
+
+------------------------------------------------------------------------------------------
+Make sure that you have installed the latest DoomBuilder configuration files for DelphiDoom if you want to open this wad with DoomBuilder:
+https://sourceforge.net/projects/delphidoom/files/Tools%2C%20maps%20and%20examples/DoomBuilder_Configuration_v2.zip/download
+
+Script and ladder thing definition is located inside ACTORDEF lump.
+
+------------------------------------------------------------------------------------------
+Ladder voxel created with DDVOXEL tool: 
+https://sourceforge.net/projects/delphidoom/files/DDVoxels/
