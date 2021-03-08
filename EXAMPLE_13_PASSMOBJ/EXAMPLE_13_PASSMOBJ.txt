@@ -1,0 +1,26 @@
+Example for DelphiDoom 2.0. (version 2.0.5.724 or higher required)
+Using ACTORDEF to set PASSMOBJ flag
+
+------------------------------------------------------------------------------------------
+This example demonstrates:
+
+-How to use ACTORDEF lumps to inherit existing ACTORS
+-How to use the PASSMOBJ flag.
+
+Inside the zip there are 2 wads:
+
+1) LOST_SOUL_PASSMOBJ.wad
+   This wad has an ACTORDEF script that add the PASSMOBJ flag to the "LOST SOUL".
+
+2) LOST_SOUL_VANILLA.wad
+   This wad has does not have the ACTORDEF script, so you can easily check the differences
+
+With the PASSMOBJ flag the "LOST SOUL" attack is not blocked by obstacles at different heights.
+Also the "LOST SOUL" attack is not interrupted by pickables (like MEDIKITS etc)
+------------------------------------------------------------------------------------------
+Contents of ACTORDEF lump:
+
+ACTOR PASS_LOST_SOUL INHERITS "LOST SOUL" REPLACES "LOST SOUL"
+{
+  +PASSMOBJ
+}
