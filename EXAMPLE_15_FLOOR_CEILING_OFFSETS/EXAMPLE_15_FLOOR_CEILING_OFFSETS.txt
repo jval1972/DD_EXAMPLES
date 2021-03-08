@@ -1,0 +1,3 @@
+Example for DelphiDoom 2.0. (version 2.0.5 build 727 or higher required)
+Demonstrate line specials 291 & 292 to set floor and ceiling texture offsets.
+
