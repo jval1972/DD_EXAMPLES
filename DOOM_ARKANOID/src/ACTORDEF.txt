@@ -146,16 +146,19 @@ begin
   begin
     ballx := 0;
     balldx := -balldx;
+    PlaySound('AHITWALL');
   end
   else if ballx >= 319 then
   begin
     ballx := 319;
     balldx := -balldx
+    PlaySound('AHITWALL');
   end;
   if bally <= 0 then
   begin
     bally := 0;
     balldy := -balldy;
+    PlaySound('AHITWALL');
   end
   else if point_in_rect(Trunc(ballx), Trunc(bally), ll, paddley, rr, paddley + PADDLESIZEY) then
   begin
@@ -173,13 +176,17 @@ begin
             blocks[i][j] := YSIZE - j;
       end;
     end;
-    asin := Sin360((ballx - paddlex) / PADDLESIZEX * 45);
-    acos := Cos360((ballx - paddlex) / PADDLESIZEX * 45);
+    asin := Sin360((ballx - paddlex) / PADDLESIZEX * 60);
+    acos := Cos360((ballx - paddlex) / PADDLESIZEX * 60);
     balldx := (balldx + asin * BALLSPEED) / 2;
     balldy := (balldy - acos * BALLSPEED) / 2;
+    PlaySound('AHITWALL');
   end
   else if bally >= 199 then
-    ArkanoidInitNew
+  begin
+    ArkanoidInitNew;
+    PlaySound('ALOOSE');
+  end
   else
   begin
     done := False;
@@ -193,6 +200,7 @@ begin
           begin
             flg := enter_in_rect(Trunc(oldx), Trunc(oldy), Trunc(ballx), Trunc(bally), 10 + i * 20, 30 + j * 10, 30 + i * 20, 40 + j * 10);
             score := score + blocks[i][j];
+            PlaySound('ABONUS');
             if highscore < score then
               highscore := score;
             if (flg and D_LEFT <> 0) and (balldx >= 0) then
