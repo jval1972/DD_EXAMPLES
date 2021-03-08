@@ -1,0 +1,18 @@
+Script, voxel, interactive actors and custom actor params example for DelphiDoom 2.0.
+Minimum game for Doomguy. Solve the mahjong puzzle to be able to exit level.
+
+------------------------------------------------------------------------------------------
+This example demonstrates:
+
+-how to use DelphiDoom's PascalScript to define both mobj (actor) scripts and map scripts.
+
+-how to define an interactive actor. 
+ Interactive actors can be defined with INTERACTIVE flag and can be activated (interact state) with spacebar while playing the game.
+
+-how the PK3ENTRY entry lump works to define long filename aliases inside wads.
+
+------------------------------------------------------------------------------------------
+Voxels for the mahjong tiles were created with the DD_VOXEL tool.
+
+------------------------------------------------------------------------------------------
+Script is located inside ACTORDEF lump.
