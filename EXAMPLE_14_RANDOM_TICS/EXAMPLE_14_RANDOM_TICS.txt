@@ -1,0 +1,59 @@
+Example for DelphiDoom 2.0. (version 2.0.5.725 or higher required)
+Using ACTORDEF to define random tics for states.
+
+------------------------------------------------------------------------------------------
+This example demonstrates:
+
+-How to use ACTORDEF lumps to define a random tic state
+-How to use the new A_GlowLight ACTORDEF function to easily define glowing lights (32 bit rendering only)
+
+Random tics are defined using the RANDOMRANGE & RANDOMSELECT keywords. Both functions take 2 parameters.
+
+- RANDOMSELECT sets randomly the tics to one of the 2 parameters.
+  In the following example, the tics for the state will be either 3 or 7:
+      MISL A RANDOMSELECT(3,7) BRIGHT A_GlowLight("WHITE")
+
+- RANDOMRANGE sets randomly the tics to a value between the two parameters (inclusive).
+  In the following example, the tics for the state will be from 2 to 20:
+      MISL B RANDOMRANGE(2,20) EXPLODE BRIGHT
+
+------------------------------------------------------------------------------------------
+Contents of ACTORDEF lump:
+
+// MT_ROCKET
+ACTOR "NewRocket" REPLACES "Rocket"
+{
+  Health 1000
+  Width 11
+  Height 8
+  Speed 1310720
+  Damage 20
+  Mass 100
+  Reactiontime 8
+  Seesound "weapons/rocklf"
+  Deathsound "weapons/rocklx"
+  +MF_NOBLOCKMAP
+  +MF_NOGRAVITY
+  +MF_DROPOFF
+  +MF_MISSILE
+  States
+  {
+    Spawn:
+    {
+      MISL A RANDOMSELECT(3,7) BRIGHT A_GlowLight "WHITE"
+      MISL A 1 BRIGHT A_GlowLight "NONE"
+    SpawnLoop:
+      MISL A 1 BRIGHT
+      GoTo SpawnLoop
+    }
+    Death:
+    {
+      TNT1 A 0 A_GlowLight "YELLOW"
+      MISL B RANDOMRANGE(2,20) EXPLODE BRIGHT
+      MISL C RANDOMRANGE(2,16) BRIGHT
+      MISL D RANDOMRANGE(1,12) BRIGHT
+      Stop
+    }
+  }
+}
+
