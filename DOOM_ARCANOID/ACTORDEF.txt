@@ -1,0 +1,291 @@
+{$VANILLA_DEMO_OFF}
+
+script map01;
+
+uses
+  all;
+
+const
+  XSIZE = 15;
+  YSIZE = 4;
+  
+const
+  MAXPADDLEMOVE = 6;
+  PADDLESIZEX = 40;
+  PADDLESIZEY = 5;
+  BALLSPEED = 4;
+  
+var
+  paddlex: integer;
+  paddley: integer;
+  paddledx: integer;
+  ballx: single;
+  bally: single;
+  balldx: single;
+  balldy: single;
+  highscore: integer;
+  score: integer;
+  blocks: array[0..XSIZE - 1] of array[0..YSIZE - 1] of integer;
+
+procedure ArkanoidInitNew;
+var
+  i, j: integer;
+begin
+  paddlex := 160;
+  paddley := 180;
+  paddledx := 0;
+  ballx := 160.0;
+  bally := 180.0;
+  balldx := 2.0;
+  balldy := -3.0; 
+  score := 0;
+  for j := 0 to YSIZE - 1 do
+    for i := 0 to XSIZE - 1 do
+      blocks[i][j] := YSIZE - j;
+end;
+
+procedure ArkanoidInput;
+begin
+  if gamekeydown(Ord('a')) or gamekeydown($AC) then
+  begin
+    if paddledx > -MAXPADDLEMOVE then
+      paddledx := paddledx - 2;
+    if paddledx > 0 then
+      paddledx := 0;
+  end
+  else if gamekeydown(Ord('d')) or gamekeydown($AE) then
+  begin
+    if paddledx < MAXPADDLEMOVE then
+      paddledx := paddledx + 2;
+    if paddledx < 0 then
+      paddledx := 0;
+  end
+  else if paddledx > 0 then
+    dec(paddledx)
+  else if paddledx < 0 then
+    inc(paddledx);
+end;
+
+function point_in_rect(const x, y: integer; const aleft, atop, aright, abottom: integer): boolean;
+begin
+  Result := 
+    (x >= aleft) and
+    (x <= aright) and
+    (y >= atop) and
+    (y <= abottom);
+end;
+
+const
+  D_LEFT = 1;
+  D_TOP = 2;
+  D_RIGHT = 4;
+  D_BOTTOM = 8;
+  
+function enter_in_rect(const oldx, oldy, x, y: integer; const aleft, atop, aright, abottom: integer): integer;
+begin
+  Result := 0;
+  if (x >= aleft) and
+     (x <= aright) and
+     (y >= atop) and
+     (y <= abottom) then
+    if not ((oldx >= aleft) and
+            (oldx <= aright) and
+            (oldy >= atop) and
+            (oldy <= abottom)) then
+    begin
+      if (oldx <= aleft) then
+        Result := Result or D_LEFT
+      else if (oldx >= aright) then
+        Result := Result or D_RIGHT;
+      if (oldy <= atop) then
+        Result := Result or D_TOP
+      else if (oldy >= abottom) then
+        Result := Result or D_BOTTOM;
+    end;
+end;
+
+procedure ArkanoidThinker;
+var
+  ll, rr: integer;
+  i, j: integer;
+  lnscore: integer;
+  oldx, oldy: single;
+  flg: integer;
+  done: boolean;
+  asin, acos: single;
+begin
+  //////////////////////////////////////////////////////////////////////////////
+  // Move paddle
+  ll := paddlex - PADDLESIZEX div 2;
+  rr := paddlex + PADDLESIZEX div 2;
+  ll := ll + paddledx;
+  rr := rr + paddledx;
+  if ll <= 0 then
+  begin
+    if paddledx < 0 then
+      inc(paddledx);
+    ll := 0;
+    rr := ll + PADDLESIZEX;
+  end;
+  if rr >= 319 then
+  begin
+    if paddledx > 0 then
+      dec(paddledx);
+    rr := 319;
+    ll := rr - PADDLESIZEX;
+  end;
+  paddlex := ll + PADDLESIZEX div 2;
+
+  //////////////////////////////////////////////////////////////////////////////
+  // move ball
+  oldx := ballx;
+  oldy := bally;
+  ballx := ballx + balldx;
+  bally := bally + balldy;
+  if ballx <= 0 then
+  begin
+    ballx := 0;
+    balldx := -balldx;
+  end
+  else if ballx >= 319 then
+  begin
+    ballx := 319;
+    balldx := -balldx
+  end;
+  if bally <= 0 then
+  begin
+    bally := 0;
+    balldy := -balldy;
+  end
+  else if point_in_rect(Trunc(ballx), Trunc(bally), ll, paddley, rr, paddley + PADDLESIZEY) then
+  begin
+    if balldy > 0 then
+    begin
+      balldy := -balldy;
+      // Fill empty line
+      for j := 0 to YSIZE - 1 do
+      begin
+        lnscore := 0;
+        for i := 0 to XSIZE - 1 do
+          lnscore := lnscore + blocks[i][j];
+        if lnscore = 0 then
+          for i := 0 to XSIZE - 1 do
+            blocks[i][j] := YSIZE - j;
+      end;
+    end;
+    asin := Sin360((ballx - paddlex) / PADDLESIZEX * 45);
+    acos := Cos360((ballx - paddlex) / PADDLESIZEX * 45);
+    balldx := (balldx + asin * BALLSPEED) / 2;
+    balldy := (balldy - acos * BALLSPEED) / 2;
+  end
+  else if bally >= 199 then
+    ArkanoidInitNew
+  else
+  begin
+    done := False;
+    for j := 0 to YSIZE - 1 do
+    begin
+      if done then
+        Break;
+      for i := 0 to XSIZE - 1 do
+        if blocks[i][j] > 0 then
+          if point_in_rect(Trunc(ballx), Trunc(bally), 10 + i * 20, 30 + j * 10, 30 + i * 20, 40 + j * 10) then
+          begin
+            flg := enter_in_rect(Trunc(oldx), Trunc(oldy), Trunc(ballx), Trunc(bally), 10 + i * 20, 30 + j * 10, 30 + i * 20, 40 + j * 10);
+            score := score + blocks[i][j];
+            if highscore < score then
+              highscore := score;
+            if (flg and D_LEFT <> 0) and (balldx >= 0) then
+            begin
+              balldx := -abs(balldx);
+              done := True;
+            end
+            else if (flg and D_RIGHT <> 0) and (balldx <= 0) then
+            begin
+              balldx := abs(balldx);
+              done := True;
+            end;
+            if (flg and D_TOP <> 0) and (balldy >= 0)  then
+            begin
+              balldy := -abs(balldy)
+              done := True;
+            end
+            else if (flg and D_BOTTOM <> 0) and (balldy <= 0) then
+            begin
+              balldy := abs(balldy);
+              done := True;
+            end;
+            if done then
+            begin
+              blocks[i][j] := 0;
+              Break;
+            end;
+          end;
+    end;
+  end;
+end;
+
+procedure ArkanoidDrawer;
+var
+  i, j, bl: integer;
+  blname: string;
+begin
+  //////////////////////////////////////////////////////////////////////////////
+  // draw Paddle
+  Overlay.DrawRect(
+    1, 
+    64, 64, 128, 
+    paddlex - PADDLESIZEX div 2, paddley, paddlex + PADDLESIZEX div 2, paddley + PADDLESIZEY
+  );
+
+  //////////////////////////////////////////////////////////////////////////////
+  // draw Bricks
+  for j := 0 to YSIZE - 1 do
+    for i := 0 to XSIZE - 1 do
+    begin
+      bl := blocks[i][j];
+      case bl of
+      1: blname := 'BL_GREEN';
+      2: blname := 'BL_BLUE';
+      3: blname := 'BL_RED';
+      4: blname := 'BL_WHITE';
+      else
+        blname := '';
+      end;
+      if blname <> '' then
+        Overlay.DrawPatch(1, blname, 10 + i * 20, 30 + j * 10);
+    end;
+
+  //////////////////////////////////////////////////////////////////////////////
+  // draw Ball
+  Overlay.DrawPatch(1, 'BALL', Trunc(ballx), Trunc(bally));
+
+  // Record & score
+  Overlay.DrawText(1, IntToStr(highscore), alCenter, 30, 16);
+  Overlay.DrawText(1, IntToStr(score), alCenter, 290, 16);
+end;
+
+event OnTick(const tick: Integer);
+begin
+  ArkanoidInput;
+  ArkanoidThinker;
+  ArkanoidDrawer;
+end;
+ 
+event OnMapStart;
+begin
+  Overlay.DrawRect(MAXINT, 64, 128, 192, 0, 0, 319, 199);
+  Overlay.DrawRect(MAXINT, 0, 0, 0, 2, 3, 56, 25);
+  Overlay.DrawRect(MAXINT, 0, 0, 0, 263, 3, 317, 25);
+  Overlay.DrawText(MAXINT, 'RECORD', alCenter, 30, 6);
+  Overlay.DrawText(MAXINT, 'SCORE', alCenter, 290, 6);
+  highscore := 0;
+  ArkanoidInitNew;
+end;
+
+event OnPlayerEnter(const playerNO: integer);
+begin 
+  SetPlayerAmmo(playerNO, am_clip, 0);
+end;
+
+endscript;
