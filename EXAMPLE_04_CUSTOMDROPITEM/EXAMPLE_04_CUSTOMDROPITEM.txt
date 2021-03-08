@@ -1,0 +1,16 @@
+Script example for DelphiDoom 2.0.
+Custom Drop Item.
+
+------------------------------------------------------------------------------------------
+This example demonstrates:
+
+-how to use DelphiDoom's PascalScript to define a map script that will change dynamically the FORMER HUMAN dropitem depending on the player's health.
+ We will change the dropitem to
+  HEALTH POTION if the player has less than 50 health.  
+  STIMPACK if the player has less than 20 health.
+
+------------------------------------------------------------------------------------------
+Script is located inside map01.ddscript file of the included PK3 file. 
+
+
+
