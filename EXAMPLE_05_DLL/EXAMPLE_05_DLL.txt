@@ -1,0 +1,21 @@
+Script example for DelphiDoom 2.0.
+DLL function calls.
+
+------------------------------------------------------------------------------------------
+This example demonstrates:
+
+-how to call DLL functions within DelphiDoom's PascalScript.
+ With DLL calls you are able to:
+ -Customize your level using your favourite programming language.
+ -Use existing libraries without the need to re-write them again using PascalScript.
+ -Implement complex algorythms taking advantage of the execution speed of native code.
+
+-NOTE: You do not have to call loadlibrary / unloadlibrary functions, the load and unload of the DLL is done automatically.
+
+------------------------------------------------------------------------------------------
+Place EXAMPLE_05_DLL.pk3 & mydll1.dll files in DelphiDoom's bin/doom folder and drag EXAMPLE_05_DLL.pk3 over Doom32.exe (or GLDoom32.exe) to test.
+
+------------------------------------------------------------------------------------------
+Script is located inside map01.ddscript file of the included PK3 file. 
+The example DLL (mydll1.dll) is written in C programming language. The dll source code is located in src_dll folder. Embarcadero C++ Builder project file is provided. 
+
