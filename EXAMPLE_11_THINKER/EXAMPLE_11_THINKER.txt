@@ -1,0 +1,62 @@
+Script example for DelphiDoom 2.0. (version 2.0.4.720 or greater is required)
+THINKER keyword.
+
+------------------------------------------------------------------------------------------
+This example demonstrates:
+
+-How to use the THINKER keyword inside ACTORDEF lumps.
+
+-How to write map and thinker scripts inside ACTORDEF lumps.
+
+-How to spawn thinkers with script.
+
+-How to use DelphiDoom's PascalScript to exit level when crossing a tagged line (without special).
+
+-How to set floor (and ceiling) x and y offsets for sectors.
+
+-How to play a sound with script.
+
+------------------------------------------------------------------------------------------
+Scripts and thinkers are located inside ACTORDEF lump of the wad file. 
+
+
+------------------------------------------------------------------------------------------
+THINKER syntax examples
+------------------------------------------------------------------------------------------
+
+THINKER th1 10001 // Thinker th1 with DoomEdNum (Editor number) 10001
+{
+  SCRIPT script01 // Script to execute
+  REPEAT FOREVER  // Repeat count
+  INTERVAL 35     // Repeat interval
+}
+
+THINKER th2 10002
+{
+  SCRIPT script02
+  REPEAT 5 TIMES  // TIMES keyword is optional, but if specified we must have at least 2 REPEATS 
+  INTERVAL 35
+}
+
+THINKER th3 10003
+{
+  SCRIPT script03
+  REPEAT 1 TIME   // TIME keyword is optional, but if specified we must have 1 REPEAT
+  INTERVAL 1
+}
+
+THINKER th4 10004
+{
+  SCRIPT script05
+  REPEAT 10 // TIMES keyword can be ommited
+// INTERVAL keyword can be ommited, will be set to 1
+}
+
+THINKER th5 // Editor number can be ommited, we can spawn the thinker with script
+{
+  SCRIPT script05
+// REPEAT keyword can be ommited - same as REPEAT FOREVER
+// INTERVAL keyword can be ommited, will be set to 1
+}
+
+
