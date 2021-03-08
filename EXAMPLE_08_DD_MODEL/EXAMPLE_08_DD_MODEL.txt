@@ -1,0 +1,62 @@
+Example for DelphiDoom 2.0. (version 2.0.3.706 or higher required)
+Procedural model demonstration.
+With procedural models you can create mesh enhancments for the OpenGL version of DelphiDoom using OpenGL drawing commands. 
+They can be created with the DD_MODEL tool (https://sourceforge.net/projects/delphidoom-procedural-modeler/). 
+Two formats are supported:
+- .ddmodel/.txt (script source code with OpenGL commands that actually generate the model)
+- .dmx (binary/compiled format that can be created with DD_MODEL tool)
+
+------------------------------------------------------------------------------------------
+This example demonstrates:
+
+-how to use procedural models in DelphiDoom.
+-how to use the PK3ENTRY to define long filename aliases inside WADs.
+
+------------------------------------------------------------------------------------------
+Make sure that you have installed the latest DoomBuilder configuration files for DelphiDoom if you want to open this wad with DoomBuilder:
+https://sourceforge.net/projects/delphidoom/files/Tools%2C%20maps%20and%20examples/DoomBuilder_Configuration_v2.zip/download
+
+Script and the spinning earth mobj are located inside the ACTORDEF lump.
+The model's source code is inside the EARTHMDL lump. 
+The model definition is defined inside the MODELDEF lump.
+
+------------------------------------------------------------------------------------------
+MODELDEF lump:
+
+modeldef "EARTH.DDMODEL" 
+{
+  scale 128.0              // Remember to define the scale of the model
+}
+
+state S_EARTH_A0 {         // State S_EARTH_A0 is automatically generated, it's the state #0 of mobj EARTH_A
+  model "EARTH.DDMODEL"    // The model
+  texture "EARTH.JPG"      // The texture
+  startframe 0             // The engine will animate from startframe to endframe the model in this state
+  endframe 359
+}
+
+------------------------------------------------------------------------------------------
+ACTORDEF lump:
+
+// The mobj definition: 
+actor EARTH_A 25001
+{
+    Health 10000         // Spawn health
+    Radius 32            // Width
+    Height 64            // Height
+    Speed 0              
+    Mass 30
+    SOLID                // Flags - add PUSHABLE for fun :)
+    States               
+    {
+    Spawn:
+        TNT1 A 175       // TNT1 means that the mobj is not rendered with the software renderer, but you can add a sprite name instead
+        Loop
+    }
+}
+
+------------------------------------------------------------------------------------------
+PK3ENTRY lump:
+
+EARTHMDL=earth.ddmodel // Alias for the EARTHMDL lump
+EARTHJPG=earth.jpg     // Alias for the EARTHJPG lump
