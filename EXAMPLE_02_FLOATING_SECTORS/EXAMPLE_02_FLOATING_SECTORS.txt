@@ -1,0 +1,12 @@
+3d Floor and script example for DelphiDoom 2.0.
+Based on 3dfloor demo Created by: Mr.Rocket aka Ron Goode
+
+------------------------------------------------------------------------------------------
+This example demonstrates:
+
+-how to use DelphiDoom's PascalScript to animate middle sectors.
+
+-how to use DelphiDoom's PascalScript to exit level when crossing a tagged line (without special).
+
+------------------------------------------------------------------------------------------
+ Script is located inside ACTORDEF lump.
