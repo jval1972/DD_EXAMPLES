@@ -1,0 +1,70 @@
+Example for DelphiDoom 2.0. (version 2.0.4.719 or higher required, OpenGL renderer)
+Model drawing from external DLL (ProcTree - Procedural Tree Generator).
+MAP01 (iwad: Doom2.wad)
+------------------------------------------------------------------------------------------
+This example demonstrates:
+
+-how to make external DLLs that render models in DelphiDoom.
+-how to use the PK3ENTRY to define long filename aliases inside WADs.
+
+------------------------------------------------------------------------------------------
+Make sure that you have installed the latest DoomBuilder configuration files for DelphiDoom if you want to open this wad with DoomBuilder:
+https://sourceforge.net/projects/delphidoom/files/Tools%2C%20maps%20and%20examples/DoomBuilder_Configuration_v2.0.5.zip/download
+
+Script and the trees mobjs are located inside the ACTORDEF lump.
+The DLL's source code is inside "dll_source\" folder. 
+The model definitions are defined inside the MODELDEF lump.
+
+------------------------------------------------------------------------------------------
+MODELDEF lump:
+
+modeldef "proctree.dll" 
+{
+  proc "draw"
+  scale 32.0
+}
+
+////////////////////////////////////////////////////////////////////////////////
+state S_TREE_A0 { 
+  model "proctree.dll" 
+  texture "TRUNK.PNG" 
+  startframe 0 
+  endframe 0
+}
+
+state S_TREE_A0 { 
+  model "proctree.dll" 
+  texture "TWIG.PNG" 
+  startframe 1000 
+  endframe 1000
+}
+
+etc....
+Note that for the same state (S_TREE_A0) we define two submodels.
+------------------------------------------------------------------------------------------
+ACTORDEF lump:
+
+// Tree mobj definition: 
+actor TREE_A 25001
+{
+    Health 10000
+    Radius 32
+    Height 64
+    Speed 0
+    Mass 30
+    SOLID DONOTRENDERSHADOW
+    States
+    {
+    Spawn:
+        TNT1 A -1
+        Loop
+    }
+}
+
+etc....
+------------------------------------------------------------------------------------------
+PK3ENTRY lump:
+
+PROCTREE=proctree.dll// Alias for the DLL
+TRUNKPNG=TRUNK.PNG // Alias for the trunk texture
+TWIGPNG=TWIG.PNG// Alias for the twig texture
