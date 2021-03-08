@@ -1,0 +1,57 @@
+Example for DelphiDoom 2.0. (version 2.0.4.719 or higher required)
+Model drawing from external DLL.
+------------------------------------------------------------------------------------------
+This example demonstrates:
+
+-how to make external DLLs that render models in DelphiDoom.
+-how to use the PK3ENTRY to define long filename aliases inside WADs.
+
+------------------------------------------------------------------------------------------
+Make sure that you have installed the latest DoomBuilder configuration files for DelphiDoom if you want to open this wad with DoomBuilder:
+https://sourceforge.net/projects/delphidoom/files/Tools%2C%20maps%20and%20examples/DoomBuilder_Configuration_v2.zip/download
+
+Script and the spinning earth mobj are located inside the ACTORDEF lump.
+The DLL's source code is inside "dll\" folder. 
+The model definition is defined inside the MODELDEF lump.
+
+------------------------------------------------------------------------------------------
+MODELDEF lump:
+
+modeldef "earth_model.dll" 
+{
+  proc "draw"
+  scale 128.0
+}
+
+state S_EARTH_A0 { 
+  model "earth_model.dll" 
+  texture "EARTH.JPG" 
+  startframe 0 
+  endframe 359
+}
+
+------------------------------------------------------------------------------------------
+ACTORDEF lump:
+
+// The mobj definition: 
+actor EARTH_A 25001
+{
+    Health 10000         // Spawn health
+    Radius 32            // * 2 = Width
+    Height 64            // Height
+    Speed 0              
+    Mass 30
+    SOLID                // Flags - add PUSHABLE for fun :)
+    States               
+    {
+    Spawn:
+        TNT1 A 175       // TNT1 means that the mobj is not rendered with the software renderer, but you can add a sprite name instead
+        Loop
+    }
+}
+
+------------------------------------------------------------------------------------------
+PK3ENTRY lump:
+
+EARTHDLL=earth_model.dll // Alias for the DLL
+EARTHJPG=earth.jpg       // Alias for the model's skin/texture
