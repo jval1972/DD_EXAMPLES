@@ -1,0 +1,18 @@
+ACTOR PlasmaZombie : ZombieMan REPLACES ZombieMan 
+{
+  health 40
+  dropitem Cell
+  missiletype PlasmaBall
+  +MISSILEHURTSPECIES
+  states
+  {
+  Missile:
+    POSS E 10 A_FaceTarget
+    POSS F 5 A_MissileAttack BRIGHT
+    POSS E 5 A_FaceTarget
+    POSS F 5 A_MissileAttack BRIGHT
+    POSS E 5 A_FaceTarget
+    POSS F 5 A_MissileAttack BRIGHT
+    goto ZombieMan::See
+  }
+}

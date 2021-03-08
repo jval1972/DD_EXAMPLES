@@ -1,0 +1,12 @@
+ACTORALIAS ZombieMan Trooper
+ACTORALIAS PlasmaBall PLASMABULLET
+ACTORALIAS Cell "ENERGY CELL"
+ACTORALIAS DoomImp Imp
+
+#include "NEW_ZOMBIEMAN.txt"
+
+#include "NEW_IMP.txt"
+
+#include "NEW_SPECTRE.txt"
+
+#include "NEW_DEMON.txt"

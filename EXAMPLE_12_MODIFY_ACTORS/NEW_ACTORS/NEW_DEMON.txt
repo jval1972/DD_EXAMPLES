@@ -1,0 +1,16 @@
+ACTOR NEW_DEMON: DEMON REPLACES DEMON
+{
+  missiletype "IMP FIREBALL"
+  +MISSILEHURTSPECIES
+  states
+  {
+  Missile:
+    SARG E 10 A_FaceTarget
+    SARG F 5 A_TroopAttack BRIGHT
+    SARG E 10 A_FaceTarget
+    SARG F 5 A_TroopAttack BRIGHT
+    SARG E 10 A_FaceTarget
+    SARG F 5 A_TroopAttack BRIGHT
+    goto DEMON::See
+  }
+}

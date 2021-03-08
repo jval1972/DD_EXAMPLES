@@ -1,0 +1,6 @@
+actor NewImp : DoomImp REPLACES DoomImp
+{
+  Health 50
+  Speed 10
+  +MISSILEHURTSPECIES
+}

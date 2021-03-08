@@ -1,0 +1,30 @@
+Example for DelphiDoom 2.0. (version 2.0.4.721 or higher required)
+Using ACTORDEF to modify existing actors.
+------------------------------------------------------------------------------------------
+This example demonstrates:
+
+-How to use ACTORDEF lumps to modify existing ACTORS
+-How to use the #include keyword inside ACTORDEF lumps.
+-The new flag MISSILEHURTSPECIES. When set, a missile spawned by an actor can hurt his own species
+-How to use the ACTORALIAS keyword to define actor name aliases. Usefull when we want to cross-port code with zDoom decorate lumps.
+
+------------------------------------------------------------------------------------------
+Example (NEW_ACTORS\NEW_DEMON.txt)
+// Overwrite demon with an upgrated version that has missile attack. (throw fireballs)
+
+ACTOR NEW_DEMON: DEMON REPLACES DEMON
+{
+  missiletype "IMP FIREBALL"
+  +MISSILEHURTSPECIES   
+  states
+  {
+  Missile:
+    SARG E 10 A_FaceTarget
+    SARG F 5 A_TroopAttack BRIGHT
+    SARG E 10 A_FaceTarget
+    SARG F 5 A_TroopAttack BRIGHT
+    SARG E 10 A_FaceTarget
+    SARG F 5 A_TroopAttack BRIGHT
+    goto DEMON::See
+  }
+}
