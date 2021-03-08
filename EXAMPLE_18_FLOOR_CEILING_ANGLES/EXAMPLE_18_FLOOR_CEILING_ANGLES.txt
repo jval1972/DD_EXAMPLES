@@ -1,0 +1,12 @@
+Example for DelphiDoom 2.0. (version 2.0.6 build 728 or higher required)
+Demonstrate different methods to set floor and ceiling texture angles:
+  -By using the easyangle things (1158 - Rotate floor texture to angle & 1159 - Rotate ceiling texture to angle)
+  -Dynamically, using PascalScript.
+
+E.g., the following 3 lines of PascalScript code will rotate the floor texture of sector #0 by 15 degrees around map point (20, 10):
+--------------------------------------------------
+sectors[0].FloorAngle := 15 * ANG1;
+sectors[0].FloorAngleX := 20 * FRACUNIT;
+sectors[0].FloorAngleY := 10 * FRACUNIT;
+--------------------------------------------------
+
