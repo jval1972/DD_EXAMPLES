@@ -1,0 +1,5 @@
+Example for DelphiDoom 2.0. (version 2.0.4 build 715 or higher required)
+Sprite demo with 32 angles.
+
+The demo sprite has been created from a voxel model using the DD_VOXEL tool - version 1.5.2 (https://sourceforge.net/projects/delphidoom-voxel-editor/). 
+
