@@ -283,8 +283,8 @@ end;
 event OnMapStart;
 begin
   Overlay.DrawRect(MAXINT, 64, 128, 192, 0, 0, 319, 199);
-  Overlay.DrawRect(MAXINT, 0, 0, 0, 2, 3, 56, 25);
-  Overlay.DrawRect(MAXINT, 0, 0, 0, 263, 3, 317, 25);
+  Overlay.DrawRect(MAXINT, 0, 0, 64, 2, 3, 56, 25);
+  Overlay.DrawRect(MAXINT, 0, 0, 64, 263, 3, 317, 25);
   Overlay.DrawText(MAXINT, 'RECORD', alCenter, 30, 6);
   Overlay.DrawText(MAXINT, 'SCORE', alCenter, 290, 6);
   highscore := 0;
