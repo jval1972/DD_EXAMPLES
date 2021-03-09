@@ -3,6 +3,8 @@ This is a collection of examples made for DelphiDoom.
 
 ## Downloads
 
+[Doom Arkanoid](https://sourceforge.net/projects/delphidoom/files/Tools%2C%20maps%20and%20examples/DOOM_ARKANOID.zip/download)
+
 [Doom Snake game](https://sourceforge.net/projects/delphidoom/files/Tools%2C%20maps%20and%20examples/DOOM_SNAKE_GAME.zip/download)
 
 [Example #1 - 3d Floors](https://sourceforge.net/projects/delphidoom/files/Tools%2C%20maps%20and%20examples/v2_EXAMPLE_01_3DFLOOR.zip/download)
