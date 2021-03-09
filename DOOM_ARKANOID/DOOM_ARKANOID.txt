@@ -1,0 +1,62 @@
+===========================================================================
+Advanced engine needed  : DelphiDoom 2.0.6 or higher
+Primary purpose         : Single-player
+===========================================================================
+Title                   : Doom Arkanoid
+Filename                : DOOM_ARKANOID.wad
+Release date            : March 9, 2021
+Author                  : Jim Valavanis
+Email Address           : jimmyvalavanis@yahoo.com
+Other Files By Author   : A few others.
+Misc. Author Info	: Software developer
+
+Description             : A simple arkanoid game
+
+Additional Credits to   : Sounds:   https://opengameart.org/content/512-sound-effects-8-bit-style
+===========================================================================
+* What is included *
+
+New levels              : 1
+Sounds                  : Yes
+Music                   : Yes
+Graphics                : Yes
+Dehacked/BEX Patch      : No
+Demos                   : No
+Other                   : No
+Other files required    : No
+
+
+* Play Information *
+
+Game                    : DOOM2
+Map #                   : MAP01
+Single Player           : Designed for
+Cooperative 2-4 Player  : No
+Deathmatch 2-4 Player   : No
+Difficulty Settings     : Yes
+
+
+* Construction *
+
+Base                    : New level from scratch
+Build Time              : A few hours
+Editor(s) used          : DoomBuilder 2.0, SLADE
+Known Bugs              : Unknown
+May Not Run With        : Vanilla Doom
+Tested With             : DelphiDoom ver.2.0.6
+
+
+* Copyright / Permissions *
+
+Authors MAY use the contents of this file as a base for
+modification or reuse.
+
+You MAY distribute this file, provided you include this text file, with
+no modifications.  You may distribute this file in any electronic
+format (BBS, Diskette, CD, etc) as long as you include this file
+intact.
+
+
+* Where to get the file that this text file describes *
+
+Other: https://sourceforge.net/projects/delphidoom/files/Tools%2C%20maps%20and%20examples/
