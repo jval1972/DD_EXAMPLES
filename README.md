@@ -43,6 +43,15 @@ This is a collection of examples made for DelphiDoom.
 
 [Example #18 - Floor & ceiling angles](https://sourceforge.net/projects/delphidoom/files/Tools%2C%20maps%20and%20examples/v2_EXAMPLE_18_FLOOR_CEILING_ANGLES.zip/download)
 
+[Example #19 - Simple Dialogs]
+(https://sourceforge.net/projects/delphidoom/files/Tools%2C%20maps%20and%20examples/v2_EXAMPLE_19_SIMPLE_DIALOGS.zip/download)
+
+[Example #20 - Polyobjects]
+(https://sourceforge.net/projects/delphidoom/files/Tools%2C%20maps%20and%20examples/v2_EXAMPLE_20_POLYOBJECTS.zip/download)
+
+[Example #21 - ACS Script]
+(https://sourceforge.net/projects/delphidoom/files/Tools%2C%20maps%20and%20examples/v2_EXAMPLE_21_ACSSCRIPT.zip/download)
+
 
 ## Screenshots
 
